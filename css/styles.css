@@ -1,139 +1,95 @@
-    th,
-    h1,
-    h2,
-    tbody,
-    td,
-    tr {
-        font-family: sans-serif; /* Cambia la tipografía de estos elementos a una fuente genérica sans-serif */
-    }
-
-    .titulo {
-        text-align: center;       /* Centra el texto dentro del contenedor */
-        align-items: center;      /* Centra verticalmente el contenido dentro del contenedor flex */
-        display: flex;            /* Convierte el contenedor en un flexbox */
-        justify-content: space-around; /* Distribuye los elementos con espacio uniforme alrededor */
-    }
-
-    .title-text {
-        margin: 0; /* Elimina márgenes externos para el título */
-    }
-
-    .subtitle-text {
-        margin: 0; /* Elimina márgenes externos para el subtítulo */
-    }
-
-    .imagen-izq {
-        width: 100%;          /* Hace que la imagen ocupe el 100% del ancho de su contenedor */
-        max-width: 68px;      /* Establece un ancho máximo de 68px */
-        height: auto;         /* Ajusta la altura automáticamente manteniendo la proporción */
-        margin-right: 20px;   /* Agrega un margen derecho de 20px */
-        position: absolute;   /* Posiciona la imagen de forma absoluta respecto al contenedor padre */
-        left: 0;              /* Coloca la imagen en el borde izquierdo */
-        top: 0;               /* Coloca la imagen en el borde superior */
-    }
-
-    .imagen-der {
-        width: 100%;          /* Hace que la imagen ocupe el 100% del ancho de su contenedor */
-        max-width: 68px;      /* Establece un ancho máximo de 68px */
-        height: auto;         /* Ajusta la altura automáticamente manteniendo la proporción */
-        margin-left: 20px;    /* Agrega un margen izquierdo de 20px */
-        right: 0;             /* Coloca la imagen en el borde derecho */
-        top: 0;               /* Coloca la imagen en el borde superior */
-        position: absolute;   /* Posiciona la imagen de forma absoluta respecto al contenedor padre */
-    }
-
-    .tabla-Prod {
-        font-size: x-large;      /* Aumenta el tamaño de la fuente */
-        height: 60vh;            /* Define la altura al 60% de la altura de la ventana */
-        max-height: 60vh;        /* Evita que sobrepase el 60% de la ventana */
-        overflow-y: auto;        /* Agrega scroll vertical si el contenido sobrepasa el contenedor */
-        border: 1px solid black; /* Coloca un borde negro sólido de 1px */
-        padding: 5px;            /* Agrega 5px de espacio interno */
-    }
-
-    #tabla {
-        max-height: 50%;   /* Limita la altura máxima al 50% del contenedor padre */
-        width: 100%;       /* Hace que la tabla ocupe el 100% del ancho disponible */
-        font-size: larger; /* Aumenta ligeramente el tamaño del texto */
-    }
-    
-    #bd-contenido {
-        max-height: 10%;   /* Limita la altura máxima al 10% del contenedor padre */
-        width: 100%;       /* Ocupa el 100% del ancho disponible */
-        font-size: larger; /* Aumenta ligeramente el tamaño de la fuente */
-    }
-
-    .input-codigo {
-        font-size: xx-large;       /* Fuente muy grande para el texto dentro del input */
-        width: calc(99% - 8px);    /* Calcula el ancho para ocupar casi todo el contenedor menos 8px */
-        padding: 10px;             /* Agrega 10px de espacio interno */
-        height: 50px;              /* Define una altura fija de 50px */
-    }
-
-.botones {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+/* Tipografía general */
+th, h1, h2, tbody, td, tr {
+    font-family: sans-serif;
 }
 
-.btn {
+/* Encabezado */
+.titulo {
+    text-align: center;
+    align-items: center;
+    display: flex;
+    justify-content: space-around;
+}
+.title-text, .subtitle-text {
+    margin: 0;
+}
+
+/* Imágenes izquierda y derecha */
+.imagen-izq, .imagen-der {
+    width: 100%;
+    max-width: 68px;
     height: auto;
-    width: auto;
-    background-size: cover;
+    position: absolute;
+    top: 0;
+}
+.imagen-izq { left: 0; }
+.imagen-der { right: 0; }
+
+/* Contenedor de la tabla */
+.tabla-Prod {
+    font-size: x-large;
+    height: 60vh;
+    max-height: 60vh;
+    overflow-y: auto;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+/* Tabla */
+#tabla {
+    width: 100%;
+    font-size: larger;
+    border-collapse: collapse;
+}
+#tabla th, #tabla td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+}
+
+/* Input código */
+.input-codigo {
+    font-size: xx-large;
+    width: calc(100% - 15px);
+    padding: 10px;
+    height: 50px;
+    border: 2px solid black;
+    border-radius: 8px;
+}
+
+/* Botones generales */
+.btn {
+    height: 10vh;
+    width: 10vh;
+    margin-top: 10px;
+    background-color: transparent;
+    background-size: 70%;
     background-repeat: no-repeat;
     background-position: center;
     cursor: pointer;
+    border: none;
 }
 
-    #btn1 {
-        background-image: url("../img/Venta.png"); /* que es*/
-        background-size: 70%;
-        background-position: center;
-        background-repeat: no-repeat;
-        padding: 10px; ;
-    }
+/* Botones específicos con imágenes */
+#btn1 { background-image: url("../img/Venta.png"); }
+#btn2 { background-image: url("../img/Agua.png"); }
+#btn3 { background-image: url("../img/Dinero.png"); }
+#btn4 { background-image: url("../img/Luz.png"); }
+#btn5 { background-image: url("../img/Telefono.png"); }
 
-    #btn2 {
-        background-image: url("../img/Agua.png"); /* que es*/
-        background-size: 70%;
-        background-position: center;
-        background-repeat: no-repeat;
-        padding: 10px; ;
-    }
-
-    #btn3 {
-        background-image: url("../img/Dinero.png"); /* que es*/
-        background-size: 70%;
-        background-position: center;
-        background-repeat: no-repeat;
-        padding: 10px; ;
-    }
-
-    #btn4 {
-        background-image: url("../img/Luz.png"); /* que es*/
-        background-size: 70%;
-        background-position: center;
-        background-repeat: no-repeat;
-        padding: 10px; ;
-    }
-
-    #btn5 {
-        background-image: url("../img/Telefono.png"); /* que es*/
-        background-size: 70%;
-        background-position: center;
-        background-repeat: no-repeat;
-        padding: 10px; ;
-    }
-
-    .total{
-        display:flex ;
-        border: 2px solid black;
-        padding: 10px;
-        width: 30%;
-        height: fit-content;
-        margin-left: auto;
-        font-size: xx-large;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: auto;
-    }
+/* Caja total */
+.total {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    border: 2px solid black;
+    padding: 10px;
+    width: 30%;
+    height: 10vh;
+    font-size: xx-large;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
+}
