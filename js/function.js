@@ -102,146 +102,76 @@ const productos = [
   [98, "Cardigan Artesanal Naranja", 395.4],
   [99, "Pull Over Ligero Naranja", 815.36],
   [100, "Hoodie Artesanal Lila", 845.03],
-  [101, "Suéter Estampado Casual Rojo", 375.87],
-  [102, "Suéter Casual Juvenil Amarillo", 933.02],
-  [103, "Suéter Deportivo Rosa", 653.13],
-  [104, "Suéter Deportivo Oversize Gris Oscuro", 911.17],
-  [105, "Suéter Deportivo Celeste", 665.82],
-  [106, "Sweater Oversize Con Estilo Negro", 722.66],
-  [107, "Suéter Deportivo Artesanal Azul Cielo", 119.11],
-  [108, "Cardigan Largo Elegante Naranja", 521.87],
-  [109, "Sweater Oversize Básico Blanco", 310.23],
-  [110, "Chaleco de Punto Básico Morado", 756.18],
-  [111, "Suéter de Cuello Alto Abrigador Rojo", 227.39],
-  [112, "Suéter Deportivo Premium Azul Cielo", 715.33],
-  [113, "Suéter de Cuello Alto Con Estilo Mostaza", 847.32],
-  [114, "Suéter con Botones Vintage Morado", 522.42],
-  [115, "Hoodie Vintage Verde Militar", 133.82],
-  [116, "Suéter Vintage Básico Rojo Vino", 640.79],
-  [117, "Suéter de Cuello Alto Deportivo Morado", 434.76],
-  [118, "Sweater Oversize Casual Rojo", 721.24],
-  [119, "Suéter de Cuello Alto Oversize Blanco", 406.0],
-  [120, "Suéter Deportivo Artesanal Rojo", 859.46],
-  [121, "Hoodie Clásico Azul Cielo", 811.34],
-  [122, "Chaleco de Punto Artesanal Rosa", 545.23],
-  [123, "Suéter Estampado Elegante Gris Oscuro", 950.99],
-  [124, "Suéter Estampado Oversize Rojo", 893.32],
-  [125, "Suéter Elegante Moderno Amarillo", 914.21],
-  [126, "Suéter Elegante Artesanal Amarillo", 803.13],
-  [127, "Hoodie Oversize Turquesa", 342.71],
-  [128, "Cardigan Básico Negro", 953.42],
-  [129, "Sweater Oversize Ligero Negro", 673.58],
-  [130, "Jersey Minimalista Azul Cielo", 121.05],
-  [131, "Pull Over Básico Blanco", 485.2],
-  [132, "Suéter Estampado Casual Turquesa", 483.0],
-  [133, "Suéter Casual Oversize Celeste", 407.57],
-  [134, "Suéter Casual Moderno Morado", 902.84],
-  [135, "Suéter Estampado Artesanal Marrón", 431.07],
-  [136, "Sweater Oversize Básico Mostaza", 450.07],
-  [137, "Suéter Casual Juvenil Lila", 355.71],
-  [138, "Suéter Deportivo Azul Cielo", 944.24],
-  [139, "Suéter de Cuello Alto Artesanal Azul Marino", 990.15],
-  [140, "Sweater Oversize Oversize Negro", 474.52],
-  [141, "Suéter Abrigador Gris Oscuro", 139.22],
-  [142, "Suéter de Cuello Alto Vintage Verde Oliva", 460.29],
-  [143, "Cardigan Largo Ligero Verde Militar", 861.68],
-  [144, "Cardigan Largo Casual Azul Cielo", 494.34],
-  [145, "Sweater Oversize Minimalista Verde Militar", 717.4],
-  [146, "Suéter Deportivo Vintage Gris Oscuro", 392.23],
-  [147, "Suéter Deportivo Ligero Blanco", 306.56],
-  [148, "Suéter Elegante Juvenil Morado", 802.52],
-  [149, "Suéter Elegante Casual Azul Cielo", 693.74],
-  [150, "Sweater Oversize Artesanal Gris Claro", 961.29],
-  [151, "Suéter Básico Celeste", 988.08],
-  [152, "Suéter Vintage Vintage Gris Claro", 464.68],
-  [153, "Jersey Con Estilo Verde Oliva", 405.33],
-  [154, "Cardigan Largo Casual Blanco", 729.67],
-  [155, "Suéter Elegante Ligero Beige", 275.45],
-  [156, "Pull Over Vintage Gris Claro", 580.74],
-  [157, "Cardigan Premium Rosa", 224.05],
-  [158, "Chaleco de Punto Minimalista Negro", 804.8],
-  [159, "Suéter Vintage Minimalista Lila", 529.8],
-  [160, "Suéter Casual Minimalista Azul Cielo", 854.41],
-  [161, "Suéter de Cuello Alto Clásico Blanco", 863.38],
-  [162, "Suéter Casual Con Estilo Azul Marino", 423.73],
-  [163, "Hoodie Deportivo Azul Marino", 160.77],
-  [164, "Hoodie Deportivo Rojo", 109.25],
-  [165, "Suéter con Botones Clásico Marrón", 603.73],
-  [166, "Suéter Elegante Rojo Vino", 818.78],
-  [167, "Chaleco de Punto Clásico Turquesa", 140.0],
-  [168, "Suéter Deportivo Moderno Turquesa", 247.37],
-  [169, "Cardigan Largo Juvenil Mostaza", 468.67],
-  [170, "Pull Over Juvenil Gris Oscuro", 814.17],
-  [171, "Cardigan Largo Clásico Gris Claro", 149.68],
-  [172, "Suéter Casual Ligero Beige", 959.79],
-  [173, "Cardigan Largo Deportivo Verde Oliva", 189.54],
-  [174, "Suéter de Cuello Alto Con Estilo Blanco", 179.94],
-  [175, "Suéter Vintage Minimalista Rosa", 694.83],
-  [176, "Sweater Oversize Moderno Negro", 829.56],
-  [177, "Suéter Ligero Morado", 180.37],
-  [178, "Sweater Oversize Juvenil Rojo", 977.74],
-  [179, "Suéter Vintage Artesanal Negro", 351.37],
-  [180, "Cardigan Largo Minimalista Marrón", 693.22],
-  [181, "Suéter con Botones Con Estilo Azul Marino", 878.13],
-  [182, "Cardigan Largo Oversize Morado", 794.9],
-  [183, "Suéter Deportivo Con Estilo Rojo", 111.54],
-  [184, "Suéter de Cuello Alto Clásico Marrón", 392.9],
-  [185, "Suéter de Cuello Alto Con Estilo Morado", 285.03],
-  [186, "Chaleco de Punto Oversize Celeste", 927.8],
-  [187, "Suéter con Botones Artesanal Naranja", 671.3],
-  [188, "Hoodie Minimalista Verde Oliva", 350.2],
-  [189, "Suéter Deportivo Oversize Celeste", 563.72],
-  [190, "Jersey Oversize Marrón", 887.45],
-  [191, "Suéter con Botones Minimalista Gris Claro", 482.27],
-  [192, "Hoodie Artesanal Rojo Vino", 746.49],
-  [193, "Cardigan Largo Elegante Morado", 659.98],
-  [194, "Chaleco de Punto Ligero Turquesa", 202.93],
-  [195, "Suéter Deportivo Vintage Amarillo", 560.19],
-  [196, "Cardigan Elegante Gris Claro", 675.85],
-  [197, "Pull Over Básico Azul Cielo", 218.63],
-  [198, "Suéter Estampado Premium Lila", 104.74],
-  [199, "Suéter Vintage Casual Beige", 557.36],
-  [200, "Chaleco de Punto Deportivo Lila", 445.71],
 ];
 
 // Declaracion de funciones
 
 function buscarProducto(evento) {
-  if (event.key === "Enter") {
-    var codigo = document.getElementById("id-Codigo").value.trim();
-    if (codigo.length > 0) {
-      var cantidad = 1;
+  if (evento.key === "Enter") {
+    let input = document.getElementById("id-Codigo");
+    let codigo = input.value.trim();
 
-      if (codigo.indexOf(" ") !== -1) {
-        cantidad = parseInt(codigo.split(" ")[1]);
-        codigo = parseInt(codigo.split(" ")[0]);
-      } else {
-        codigo = parseInt(codigo);
-      }
+    if (codigo.length === 0) return;
 
-    for (let i = 0; i < productos.length; i++) {
-        if (productos[i][0] === codigo) {
-            var tabla = document.getElementById("bd-contenido");
-            var renglon = tabla.insertRow(-1); 
-            var celda1 = renglon.insertCell(0);
-            var celda2 = renglon.insertCell(1);
-            var celda3 = renglon.insertCell(2);
-            var celda4 = renglon.insertCell(3);
-            celda1.setAttribute("style", "text-align: center");
-            celda1.innerHTML = cantidad;
-            celda2.setAttribute("style", "text-align: center");
-            celda2.innerHTML = productos[i][1];
-            celda3.setAttribute("style", "text-align: center");
-            celda3.innerHTML = productos[i][2].toFixed(2);
-            celda4.setAttribute("style", "text-align: center");
-            celda4.innerHTML = (productos[i][2] * cantidad).toFixed(2);
-            document.getElementById("id-Codigo").value = "";
-            totalVentas += productos[i][2] * cantidad;
-            document.getElementById("total").innerHTML = "Total: $" + totalVentas.toFixed(2);
-            break;
-        }
+    let cantidad = 1;
+
+    // Permitir formato como "100 3" o "100*3"
+    const partes = codigo.split(/[\s\*]+/);
+    codigo = parseInt(partes[0]);
+    if (partes.length > 1) cantidad = parseInt(partes[1]) || 1;
+
+    // Buscar producto
+    const producto = productos.find(p => p[0] === codigo);
+
+    if (producto) {
+      const tabla = document.getElementById("bd-contenido");
+      const renglon = tabla.insertRow(-1);
+
+      const celda1 = renglon.insertCell(0);
+      const celda2 = renglon.insertCell(1);
+      const celda3 = renglon.insertCell(2);
+      const celda4 = renglon.insertCell(3);
+
+      celda1.style.textAlign = "center";
+      celda1.textContent = cantidad;
+
+      celda2.style.textAlign = "center";
+      celda2.textContent = producto[1];
+
+      celda3.style.textAlign = "center";
+      celda3.textContent = producto[2].toFixed(2);
+
+      celda4.style.textAlign = "center";
+      celda4.textContent = (producto[2] * cantidad).toFixed(2);
+
+      totalVentas += producto[2] * cantidad;
+      document.getElementById("total").innerHTML =
+        "Total: $" + totalVentas.toFixed(2);
+
+      // Limpiar el input
+      input.value = "";
+    } else {
+      alert("Código no encontrado");
     }
-    }
+  }
 
-}
+  // Eliminar último producto con Escape
+  else if (evento.key === "Escape") {
+    const tabla = document.getElementById("bd-contenido");
+    const filas = tabla.rows.length;
+
+    if (filas > 0) {
+      // Restar el valor de la última fila al total
+      const ultimaFila = tabla.rows[filas - 1];
+      const subtotal = parseFloat(ultimaFila.cells[3].textContent);
+      totalVentas -= subtotal;
+
+      // Eliminar la fila
+      tabla.deleteRow(filas - 1);
+
+      // Actualizar total
+      document.getElementById("total").innerHTML =
+        "Total: $" + totalVentas.toFixed(2);
+    }
+  }
 }
