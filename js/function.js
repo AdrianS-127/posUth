@@ -124,9 +124,9 @@ function buscarProducto(evento) {
     const producto = productos.find(p => p[0] === codigo);
 
     if (producto) {
+      // Agregar producto a la tabla
       const tabla = document.getElementById("bd-contenido");
       const renglon = tabla.insertRow(-1);
-
       const celda1 = renglon.insertCell(0);
       const celda2 = renglon.insertCell(1);
       const celda3 = renglon.insertCell(2);
@@ -143,7 +143,7 @@ function buscarProducto(evento) {
 
       celda4.style.textAlign = "center";
       celda4.textContent = (producto[2] * cantidad).toFixed(2);
-
+      
       totalVentas += producto[2] * cantidad;
       document.getElementById("total").innerHTML =
         "Total: $" + totalVentas.toFixed(2);
@@ -174,4 +174,182 @@ function buscarProducto(evento) {
         "Total: $" + totalVentas.toFixed(2);
     }
   }
+
+  // Añadir 1 al ultimo elemento de la tabla con +
+  else if (evento.key === "+") {
+    evento.preventDefault();
+    const tabla = document.getElementById("bd-contenido");
+    
+    const filas = tabla.rows.length;
+    if (filas > 0) {
+      const ultimaFila = tabla.rows[filas - 1];
+      const cantidad = parseInt(ultimaFila.cells[0].textContent);
+      const precio = parseFloat(ultimaFila.cells[2].textContent);
+      const subtotal = precio * (cantidad + 1);
+      ultimaFila.cells[0].textContent = cantidad + 1;
+      ultimaFila.cells[3].textContent = subtotal.toFixed(2);
+      totalVentas += subtotal - precio * cantidad;
+      document.getElementById("total").innerHTML =
+        "Total: $" + totalVentas.toFixed(2);
+    }
+  }
+
+  // Restar 1 al ultimo elemento de la tabla con -
+  else if (evento.key === "-") {
+    evento.preventDefault();
+    const tabla = document.getElementById("bd-contenido");
+    
+    const filas = tabla.rows.length;
+    if (filas > 0) { 
+      {
+        const ultimaFila = tabla.rows[filas - 1];
+        const cantidad = parseInt(ultimaFila.cells[0].textContent);
+        const precio = parseFloat(ultimaFila.cells[2].textContent);
+        const subtotal = precio * (cantidad - 1);
+        ultimaFila.cells[0].textContent = cantidad - 1;
+        ultimaFila.cells[3].textContent = subtotal.toFixed(2);
+        totalVentas += subtotal - precio * cantidad;
+        document.getElementById("total").innerHTML =
+        "Total: $" + totalVentas.toFixed(2);
+      }
+    }
+  }
+
+  // Mostrar modal con tecla "C"
+  else if (evento.key.toLowerCase() === "c") {
+    evento.preventDefault();
+    mostrarModalClave();
+  }
+
+  // Cerrar venta con tecla "P"
+  else if (evento.key.toLowerCase() === "p") {
+    evento.preventDefault();
+    cerrarVenta();
+
+  }
+
 }
+
+// ======================
+// Funciones del modal
+// ======================
+
+function mostrarModalClave() {
+  // Evitar múltiples modales
+  if (document.getElementById("modalClave")) return;
+
+  // Crear overlay
+  const overlay = document.createElement("div");
+  overlay.id = "modalClave";
+  overlay.style.cssText = `
+    position:fixed;
+    top:0;left:0;
+    width:100%;height:100%;
+    background:rgba(0,0,0,0.6);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+  `;
+
+  // Crear modal
+  const modal = document.createElement("div");
+  modal.style.cssText = `
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    text-align:center;
+    width:300px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.3);
+  `;
+
+  modal.innerHTML = `
+    <h3>Ingrese clave de administrador</h3>
+    <input type="password" id="inputClave" placeholder="Clave" style="width:80%;padding:8px;border:1px solid #ccc;border-radius:5px;">
+    <div style="margin-top:15px;">
+      <button id="btnAceptar" style="padding:8px 15px;background:#007bff;color:white;border:none;border-radius:5px;cursor:pointer;">Aceptar</button>
+      <button id="btnCancelar" style="padding:8px 15px;background:#6c757d;color:white;border:none;border-radius:5px;cursor:pointer;">Cancelar</button>
+    </div>
+  `;
+
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+
+  // Foco automático
+  document.getElementById("inputClave").focus();
+
+  // Cerrar con botón cancelar o clic fuera del modal
+  document.getElementById("btnCancelar").onclick = () => cerrarModal();
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) cerrarModal();
+  });
+
+  // Aceptar con Enter o botón
+  const aceptar = () => {
+    const clave = document.getElementById("inputClave").value;
+    verificarClave(clave);
+    cerrarModal();
+  };
+  document.getElementById("btnAceptar").onclick = aceptar;
+  document.getElementById("inputClave").addEventListener("keypress", (e) => {
+    if (e.key === "Enter") aceptar();
+  });
+
+  function cerrarModal() {
+    overlay.remove();
+  }
+}
+
+// Verificación de clave
+function verificarClave(clave) {
+  if (clave === "12345") {
+    alert("Venta cancelada.");
+    const tabla = document.getElementById("bd-contenido");
+    while (tabla.rows.length > 0) tabla.deleteRow(0);
+    totalVentas = 0;
+    document.getElementById("total").innerHTML = "Total: $0.00";
+  } else {
+    alert("Clave incorrecta. Pelas");
+  }
+}
+
+function cerrarVenta( ){
+  const input = document.getElementById("id-Codigo");
+    const valor = input.value.trim();
+
+    if (totalVentas <= 0) {
+      alert("No hay productos en la venta.");
+      return;
+    }
+
+    if (valor.length === 0) {
+      alert("Ingrese el monto con el que paga el cliente en el campo antes de presionar P.");
+      return;
+    }
+
+    const monto = parseFloat(valor);
+
+    if (isNaN(monto) || monto <= 0) {
+      alert("Monto inválido. Intente de nuevo.");
+      return;
+    }
+
+    if (monto < totalVentas) {
+      const faltante = (totalVentas - monto).toFixed(2);
+      alert(`Faltan $${faltante} para completar el pago.`);
+      return;
+    }
+
+    // Calcular y mostrar cambio
+    const cambio = (monto - totalVentas).toFixed(2);
+    document.getElementById("total").innerHTML = "Cambio: $" + cambio;
+
+    // Limpiar la venta
+    document.getElementById("id-Codigo").value = "";
+    const tabla = document.getElementById("bd-contenido");
+    const filas = tabla.rows.length;
+    for (let i = filas - 1; i >= 0; i--) {
+      tabla.deleteRow(i);
+    }
+    totalVentas = 0;
+  }
