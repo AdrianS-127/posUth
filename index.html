@@ -45,11 +45,19 @@
         <input id="id-Codigo" class="input-codigo" type="text" placeholder="Introduzca su codigo" onkeydown="buscarProducto(event)"/>
         <!--- 5 botones con imagen --->
         <div class="botones">
-            <input type="button" class="btn" id="btn1" class="boton"/>
-            <input type="button" class="btn" id="btn2" class="boton"/>
-            <input type="button" class="btn" id="btn3" class="boton"/>
-            <input type="button" class="btn" id="btn4" class="boton"/>
-            <input type="button" class="btn" id="btn5" class="boton"/>
+            <input type="button" class="btn" id="btn1"  onclick="abrirModal('internet')" />
+            <input type="button" class="btn" id="btn2" onclick="abrirModal('agua')" />
+            <input type="button" class="btn" id="btn3" onclick="abrirModal('transferencia')" />
+            <input type="button" class="btn" id="btn4" onclick="abrirModal('luz')" />
+            <input type="button" class="btn" id="btn5" onclick="abrirModal('saldoCelular')" />
+
+            <!-- Modal -->
+            <div id="miModal" class="modal">
+            <div class="modal-contenido">
+                <span class="cerrar" onclick="cerrarModal()">&times;</span>
+                <div id="contenidoModal"></div>
+            </div>
+</div>
         </div>
         <!--- En esta area aparecera el total --->
         <div class="total">

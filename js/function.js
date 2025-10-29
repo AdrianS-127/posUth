@@ -353,3 +353,189 @@ function cerrarVenta( ){
     }
     totalVentas = 0;
   }
+
+  function transferencia() {
+  alert("Transferencia exitosa.");
+  }
+
+  function abrirModal(tipo) {
+  const modal = document.getElementById("miModal");
+  const contenido = document.getElementById("contenidoModal");
+
+  // Cambiamos el contenido según el botón presionado
+// Cambiamos el contenido según el botón presionado
+switch (tipo) {
+  // 💻 PAGO DE INTERNET
+  case "internet":
+    contenido.innerHTML = `
+      <h2>Pago de Internet</h2>
+      <p>Introduce tu número de cuenta y el monto a pagar.</p>
+      <input type="text" id="cuentaInternet" placeholder="Número de cuenta" />
+      <input type="number" id="montoInternet" placeholder="Monto" />
+      <button id="btnPagarInternet">Confirmar</button>
+    `;
+
+    document.getElementById("btnPagarInternet").addEventListener("click", () => {
+      const cuenta = document.getElementById("cuentaInternet").value.trim();
+      const monto = document.getElementById("montoInternet").value.trim();
+      if (!cuenta || !monto) return alert("Por favor, completa todos los campos.");
+      confirmar(`Pago de Internet\nCuenta: ${cuenta}\nMonto: $${monto}`);
+    });
+    break;
+
+  // 💧 PAGO DE AGUA
+  case "agua":
+    contenido.innerHTML = `
+      <h2>Pago de Agua</h2>
+      <p>Introduce tu número de cuenta y el monto a pagar.</p>
+      <input type="text" id="cuentaAgua" placeholder="Número de cuenta" />
+      <input type="number" id="montoAgua" placeholder="Monto" />
+      <button id="btnPagarAgua">Confirmar</button>
+    `;
+
+    document.getElementById("btnPagarAgua").addEventListener("click", () => {
+      const cuenta = document.getElementById("cuentaAgua").value.trim();
+      const monto = document.getElementById("montoAgua").value.trim();
+      if (!cuenta || !monto) return alert("Por favor, completa todos los campos.");
+      confirmar(`Pago de Agua\nCuenta: ${cuenta}\nMonto: $${monto}`);
+    });
+    break;
+
+  // 💸 TRANSFERENCIA
+  case "transferencia":
+    contenido.innerHTML = `
+      <h2>Transferencia Bancaria</h2>
+      <p>Introduce los datos de la cuenta destino.</p>
+      <input type="text" id="cuentaDestino" placeholder="Cuenta destino" />
+      <input type="number" id="montoTransferencia" placeholder="Monto" />
+      <input type="text" id="numTarjeta" placeholder="Número de tarjeta" />
+      <div id="msgTarjeta" style="color:crimson; font-size:14px; margin-top:4px;"></div>
+      <button id="btnValidar">Validar Tarjeta</button>
+      <button id="btnEnviar" disabled>Enviar</button>
+    `;
+
+    // Funciones auxiliares
+    const onlyDigits = s => (s || '').replace(/\D/g, '');
+
+    function luhnCheck(number) {
+      const digits = onlyDigits(number);
+      let sum = 0;
+      let shouldDouble = false;
+      for (let i = digits.length - 1; i >= 0; i--) {
+        let d = Number(digits[i]);
+        if (shouldDouble) {
+          d *= 2;
+          if (d > 9) d -= 9;
+        }
+        sum += d;
+        shouldDouble = !shouldDouble;
+      }
+      return sum % 10 === 0;
+    }
+
+    // Referencias
+    const inputTarjeta = document.getElementById("numTarjeta");
+    const msg = document.getElementById("msgTarjeta");
+    const btnValidar = document.getElementById("btnValidar");
+    const btnEnviar = document.getElementById("btnEnviar");
+
+    // Formatear número
+    inputTarjeta.addEventListener("input", () => {
+      const value = onlyDigits(inputTarjeta.value).replace(/(\d{4})(?=\d)/g, "$1 ").trim();
+      inputTarjeta.value = value;
+      msg.textContent = "";
+      btnEnviar.disabled = true;
+    });
+
+    // Validar tarjeta
+    btnValidar.addEventListener("click", () => {
+      const num = onlyDigits(inputTarjeta.value);
+      if (num.length < 12) {
+        msg.textContent = "Número demasiado corto.";
+        msg.style.color = "crimson";
+        btnEnviar.disabled = true;
+        return;
+      }
+      if (!luhnCheck(num)) {
+        msg.textContent = "Número inválido (Luhn).";
+        msg.style.color = "crimson";
+        btnEnviar.disabled = true;
+        return;
+      }
+      msg.textContent = "Número de tarjeta válido ✅";
+      msg.style.color = "green";
+      btnEnviar.disabled = false;
+    });
+
+    // Enviar transferencia
+    btnEnviar.addEventListener("click", () => {
+      const cuenta = document.getElementById("cuentaDestino").value.trim();
+      const monto = document.getElementById("montoTransferencia").value.trim();
+      if (!cuenta || !monto) return alert("Por favor, completa todos los campos.");
+      confirmar(`Transferencia enviada\nDestino: ${cuenta}\nMonto: $${monto}`);
+    });
+    break;
+
+  // ⚡ PAGO DE LUZ
+  case "luz":
+    contenido.innerHTML = `
+      <h2>Pago de Luz</h2>
+      <p>Introduce tu número de servicio y el monto.</p>
+      <input type="text" id="servicioLuz" placeholder="Número de servicio" />
+      <input type="number" id="montoLuz" placeholder="Monto" />
+      <button id="btnPagarLuz">Pagar</button>
+    `;
+
+    document.getElementById("btnPagarLuz").addEventListener("click", () => {
+      const servicio = document.getElementById("servicioLuz").value.trim();
+      const monto = document.getElementById("montoLuz").value.trim();
+      if (!servicio || !monto) return alert("Por favor, completa todos los campos.");
+      confirmar(`Pago de Luz\nServicio: ${servicio}\nMonto: $${monto}`);
+    });
+    break;
+
+  // 📱 RECARGA DE SALDO
+  case "saldoCelular":
+    contenido.innerHTML = `
+      <h2>Recarga de Saldo</h2>
+      <p>Introduce tu número de teléfono y el monto.</p>
+      <input type="text" id="telefono" placeholder="Número de teléfono" />
+      <input type="number" id="montoCelular" placeholder="Monto" />
+      <button id="btnRecargar">Recargar</button>
+    `;
+
+    document.getElementById("btnRecargar").addEventListener("click", () => {
+      const numero = document.getElementById("telefono").value.trim();
+      const monto = document.getElementById("montoCelular").value.trim();
+      if (!numero || !monto) return alert("Por favor, completa todos los campos.");
+      confirmar(`Recarga exitosa\nNúmero: ${numero}\nMonto: $${monto}`);
+    });
+    break;
+
+  default:
+    contenido.innerHTML = `<p>Acción no reconocida.</p>`;
+    break;
+}
+
+
+  // Mostrar el modal
+  modal.style.display = "block";
+}
+
+function cerrarModal() {
+  document.getElementById("miModal").style.display = "none";
+}
+
+// Cerrar modal si se hace clic fuera
+window.addEventListener("click", (event) => {
+  const modal = document.getElementById("miModal");
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+});
+
+// Ejemplo: acción de confirmación
+function confirmar(tipo) {
+  alert(`Confirmado: ${tipo}`);
+  cerrarModal();
+}

@@ -1,0 +1,33 @@
+CREATE TABLE productos (
+    codigo_producto INT UNSIGNED PRIMARY KEY CHECK (codigo_producto > 0),
+    nombre_producto VARCHAR(255) NOT NULL CHECK (CHAR_LENGTH(TRIM(nombre_producto)) > 0),
+    precio_producto DOUBLE(5,2) UNSIGNED NOT NULL CHECK(`precio_producto`>0)
+);
+
+CREATE TABLE IF NOT EXISTS ventas(
+     id_venta BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+     fecha DATE NOT NULL DEFAULT (CURRENT_DATE),
+     hora TIME NOT NULL DEFAULT (CURRENT_TIME)
+);
+
+
+
+INSERT INTO ventas VALUES(
+    NULL,NULL,NULL
+);
+
+DELIMITER //
+CREATE TRIGGER trim_producto_insert
+BEFORE INSERT ON productos
+FOR EACH ROW
+BEGIN
+    SET NEW.nombre_producto = TRIM(NEW.nombre_producto);
+END//
+
+CREATE TRIGGER trim_producto_update
+BEFORE UPDATE ON productos
+FOR EACH ROW
+BEGIN
+    SET NEW.nombre_producto = TRIM(NEW.nombre_producto);
+END//
+DELIMITER ;
