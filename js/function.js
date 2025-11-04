@@ -104,438 +104,378 @@ const productos = [
   [100, "Hoodie Artesanal Lila", 845.03],
 ];
 
-// Declaracion de funciones
+// ======================
+// Variables globales
+// ======================
+var totalVentas = 0;
 
+// ======================
+// Función principal
+// ======================
 function buscarProducto(evento) {
-  if (evento.key === "Enter") {
-    let input = document.getElementById("id-Codigo");
-    let codigo = input.value.trim();
+  const input = document.getElementById("id-Codigo");
 
-    if (codigo.length === 0) return;
+  // ENTER → Agregar producto
+  if (evento.key === "Enter") {
+    let codigoInput = input.value.trim();
+    if (!codigoInput) return;
 
     let cantidad = 1;
-
-    // Permitir formato como "100 3" o "100*3"
-    const partes = codigo.split(/[\s\*]+/);
-    codigo = parseInt(partes[0]);
+    const partes = codigoInput.split(/[\s\*]+/);
+    let codigo = parseInt(partes[0]);
     if (partes.length > 1) cantidad = parseInt(partes[1]) || 1;
 
-    // Buscar producto
     const producto = productos.find(p => p[0] === codigo);
-
     if (producto) {
-      // Agregar producto a la tabla
-      const tabla = document.getElementById("bd-contenido");
-      const renglon = tabla.insertRow(-1);
-      const celda1 = renglon.insertCell(0);
-      const celda2 = renglon.insertCell(1);
-      const celda3 = renglon.insertCell(2);
-      const celda4 = renglon.insertCell(3);
-
-      celda1.style.textAlign = "center";
-      celda1.textContent = cantidad;
-
-      celda2.style.textAlign = "center";
-      celda2.textContent = producto[1];
-
-      celda3.style.textAlign = "center";
-      celda3.textContent = producto[2].toFixed(2);
-
-      celda4.style.textAlign = "center";
-      celda4.textContent = (producto[2] * cantidad).toFixed(2);
-      
-      totalVentas += producto[2] * cantidad;
-      document.getElementById("total").innerHTML =
-        "Total: $" + totalVentas.toFixed(2);
-
-      // Limpiar el input
+      agregarProductoTabla(producto, cantidad);
       input.value = "";
     } else {
-      alert("Código no encontrado");
+      notificar("Código no encontrado", "error");
     }
   }
 
-  // Eliminar último producto con Escape
+  // ESCAPE → Eliminar última fila
   else if (evento.key === "Escape") {
-    const tabla = document.getElementById("bd-contenido");
-    const filas = tabla.rows.length;
-
-    if (filas > 0) {
-      // Restar el valor de la última fila al total
-      const ultimaFila = tabla.rows[filas - 1];
-      const subtotal = parseFloat(ultimaFila.cells[3].textContent);
-      totalVentas -= subtotal;
-
-      // Eliminar la fila
-      tabla.deleteRow(filas - 1);
-
-      // Actualizar total
-      document.getElementById("total").innerHTML =
-        "Total: $" + totalVentas.toFixed(2);
-    }
+    eliminarUltimoProducto();
   }
 
-  // Añadir 1 al ultimo elemento de la tabla con +
+  // + → Aumentar cantidad última fila
   else if (evento.key === "+") {
     evento.preventDefault();
-    const tabla = document.getElementById("bd-contenido");
-    
-    const filas = tabla.rows.length;
-    if (filas > 0) {
-      const ultimaFila = tabla.rows[filas - 1];
-      const cantidad = parseInt(ultimaFila.cells[0].textContent);
-      const precio = parseFloat(ultimaFila.cells[2].textContent);
-      const subtotal = precio * (cantidad + 1);
-      ultimaFila.cells[0].textContent = cantidad + 1;
-      ultimaFila.cells[3].textContent = subtotal.toFixed(2);
-      totalVentas += subtotal - precio * cantidad;
-      document.getElementById("total").innerHTML =
-        "Total: $" + totalVentas.toFixed(2);
-    }
+    modificarCantidadUltimo(1);
   }
 
-  // Restar 1 al ultimo elemento de la tabla con -
+  // - → Disminuir cantidad última fila
   else if (evento.key === "-") {
     evento.preventDefault();
-    const tabla = document.getElementById("bd-contenido");
-    
-    const filas = tabla.rows.length;
-    if (filas > 0) { 
-      {
-        const ultimaFila = tabla.rows[filas - 1];
-        const cantidad = parseInt(ultimaFila.cells[0].textContent);
-        const precio = parseFloat(ultimaFila.cells[2].textContent);
-        const subtotal = precio * (cantidad - 1);
-        ultimaFila.cells[0].textContent = cantidad - 1;
-        ultimaFila.cells[3].textContent = subtotal.toFixed(2);
-        totalVentas += subtotal - precio * cantidad;
-        document.getElementById("total").innerHTML =
-        "Total: $" + totalVentas.toFixed(2);
-      }
-    }
+    modificarCantidadUltimo(-1);
   }
 
-  // Mostrar modal con tecla "C"
+  // C → Mostrar modal clave
   else if (evento.key.toLowerCase() === "c") {
     evento.preventDefault();
     mostrarModalClave();
   }
 
-  // Cerrar venta con tecla "P"
+  // P → Cerrar venta
   else if (evento.key.toLowerCase() === "p") {
     evento.preventDefault();
     cerrarVenta();
-
   }
-
 }
 
 // ======================
-// Funciones del modal
+// Funciones auxiliares
 // ======================
 
+function agregarProductoTabla(producto, cantidad) {
+  const tabla = document.getElementById("bd-contenido");
+  const renglon = tabla.insertRow(-1);
+
+  const celda1 = renglon.insertCell(0);
+  const celda2 = renglon.insertCell(1);
+  const celda3 = renglon.insertCell(2);
+  const celda4 = renglon.insertCell(3);
+  const celda5 = renglon.insertCell(4);
+
+  celda1.textContent = cantidad;
+  celda2.textContent = producto[1];
+  celda3.textContent = producto[2].toFixed(2);
+  celda4.textContent = (producto[2] * cantidad).toFixed(2);
+  celda1.style.textAlign = celda2.style.textAlign = celda3.style.textAlign = celda4.style.textAlign = "center";
+
+  // Botón eliminar individual
+  celda5.innerHTML = `<button class="btn-borrar">❌</button>`;
+  celda5.style.textAlign = "center";
+  celda5.querySelector("button").onclick = () => {
+    totalVentas -= producto[2] * cantidad;
+    renglon.remove();
+    actualizarTotal();
+  };
+
+  totalVentas += producto[2] * cantidad;
+  actualizarTotal();
+}
+
+function eliminarUltimoProducto() {
+  const tabla = document.getElementById("bd-contenido");
+  const filas = tabla.rows.length;
+  if (filas === 0) return notificar("No hay productos para eliminar", "error");
+
+  const ultimaFila = tabla.rows[filas - 1];
+  const subtotal = parseFloat(ultimaFila.cells[3].textContent);
+  totalVentas -= subtotal;
+  tabla.deleteRow(filas - 1);
+  actualizarTotal();
+}
+
+function modificarCantidadUltimo(cambio) {
+  const tabla = document.getElementById("bd-contenido");
+  const filas = tabla.rows.length;
+  if (filas === 0) return;
+
+  const ultimaFila = tabla.rows[filas - 1];
+  const cantidadActual = parseInt(ultimaFila.cells[0].textContent);
+  const precio = parseFloat(ultimaFila.cells[2].textContent);
+
+  const nuevaCantidad = cantidadActual + cambio;
+  if (nuevaCantidad <= 0) {
+    totalVentas -= precio * cantidadActual;
+    tabla.deleteRow(filas - 1);
+  } else {
+    const nuevoSubtotal = precio * nuevaCantidad;
+    totalVentas += (nuevoSubtotal - precio * cantidadActual);
+    ultimaFila.cells[0].textContent = nuevaCantidad;
+    ultimaFila.cells[3].textContent = nuevoSubtotal.toFixed(2);
+  }
+  actualizarTotal();
+}
+
+function actualizarTotal() {
+  document.getElementById("total").innerHTML = "Total: $" + totalVentas.toFixed(2);
+}
+
+// ======================
+// MODAL DE CLAVE
+// ======================
 function mostrarModalClave() {
-  // Evitar múltiples modales
   if (document.getElementById("modalClave")) return;
 
-  // Crear overlay
   const overlay = document.createElement("div");
   overlay.id = "modalClave";
   overlay.style.cssText = `
-    position:fixed;
-    top:0;left:0;
-    width:100%;height:100%;
-    background:rgba(0,0,0,0.6);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    z-index:9999;
-  `;
+    position:fixed;top:0;left:0;width:100%;height:100%;
+    background:rgba(0,0,0,0.6);display:flex;
+    justify-content:center;align-items:center;z-index:9999;`;
 
-  // Crear modal
   const modal = document.createElement("div");
   modal.style.cssText = `
-    background:white;
-    padding:20px;
-    border-radius:10px;
-    text-align:center;
-    width:300px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.3);
-  `;
+    background:white;padding:20px;border-radius:10px;text-align:center;
+    width:300px;box-shadow:0 4px 10px rgba(0,0,0,0.3);`;
 
   modal.innerHTML = `
     <h3>Ingrese clave de administrador</h3>
     <input type="password" id="inputClave" placeholder="Clave" style="width:80%;padding:8px;border:1px solid #ccc;border-radius:5px;">
     <div style="margin-top:15px;">
-      <button id="btnAceptar" style="padding:8px 15px;background:#007bff;color:white;border:none;border-radius:5px;cursor:pointer;">Aceptar</button>
-      <button id="btnCancelar" style="padding:8px 15px;background:#6c757d;color:white;border:none;border-radius:5px;cursor:pointer;">Cancelar</button>
+      <button id="btnAceptar" class="btn-azul">Aceptar</button>
+      <button id="btnCancelar" class="btn-gris">Cancelar</button>
     </div>
   `;
 
   overlay.appendChild(modal);
   document.body.appendChild(overlay);
 
-  // Foco automático
-  document.getElementById("inputClave").focus();
+  const inputClave = document.getElementById("inputClave");
+  inputClave.focus();
 
-  // Cerrar con botón cancelar o clic fuera del modal
-  document.getElementById("btnCancelar").onclick = () => cerrarModal();
-  overlay.addEventListener("click", (e) => {
-    if (e.target === overlay) cerrarModal();
-  });
-
-  // Aceptar con Enter o botón
-  const aceptar = () => {
-    const clave = document.getElementById("inputClave").value;
-    verificarClave(clave);
+  document.getElementById("btnAceptar").onclick = () => {
+    verificarClave(inputClave.value);
     cerrarModal();
   };
-  document.getElementById("btnAceptar").onclick = aceptar;
-  document.getElementById("inputClave").addEventListener("keypress", (e) => {
-    if (e.key === "Enter") aceptar();
-  });
-
-  function cerrarModal() {
-    overlay.remove();
-  }
+  document.getElementById("btnCancelar").onclick = cerrarModal;
+  overlay.onclick = e => { if (e.target === overlay) cerrarModal(); };
+  inputClave.addEventListener("keypress", e => { if (e.key === "Enter") document.getElementById("btnAceptar").click(); });
 }
 
-// Verificación de clave
 function verificarClave(clave) {
   if (clave === "12345") {
-    alert("Venta cancelada.");
+    notificar("Venta cancelada.", "ok");
     const tabla = document.getElementById("bd-contenido");
-    while (tabla.rows.length > 0) tabla.deleteRow(0);
+    tabla.innerHTML = "";
     totalVentas = 0;
-    document.getElementById("total").innerHTML = "Total: $0.00";
+    actualizarTotal();
   } else {
-    alert("Clave incorrecta. Pelas");
+    notificar("Clave incorrecta.", "error");
   }
 }
 
-function cerrarVenta( ){
+// ======================
+// CIERRE DE VENTA
+// ======================
+function cerrarVenta() {
   const input = document.getElementById("id-Codigo");
-    const valor = input.value.trim();
+  const valor = input.value.trim();
 
-    if (totalVentas <= 0) {
-      alert("No hay productos en la venta.");
-      return;
-    }
+  if (totalVentas <= 0) return notificar("No hay productos en la venta.", "error");
+  if (!valor) return notificar("Ingrese el monto con el que paga el cliente.", "error");
 
-    if (valor.length === 0) {
-      alert("Ingrese el monto con el que paga el cliente en el campo antes de presionar P.");
-      return;
-    }
-
-    const monto = parseFloat(valor);
-
-    if (isNaN(monto) || monto <= 0) {
-      alert("Monto inválido. Intente de nuevo.");
-      return;
-    }
-
-    if (monto < totalVentas) {
-      const faltante = (totalVentas - monto).toFixed(2);
-      alert(`Faltan $${faltante} para completar el pago.`);
-      return;
-    }
-
-    // Calcular y mostrar cambio
-    const cambio = (monto - totalVentas).toFixed(2);
-    document.getElementById("total").innerHTML = "Cambio: $" + cambio;
-
-    // Limpiar la venta
-    document.getElementById("id-Codigo").value = "";
-    const tabla = document.getElementById("bd-contenido");
-    const filas = tabla.rows.length;
-    for (let i = filas - 1; i >= 0; i--) {
-      tabla.deleteRow(i);
-    }
-    totalVentas = 0;
+  const monto = parseFloat(valor);
+  if (isNaN(monto) || monto <= 0) return notificar("Monto inválido.", "error");
+  if (monto < totalVentas) {
+    const faltante = (totalVentas - monto).toFixed(2);
+    return notificar(`Faltan $${faltante} para completar el pago.`, "error");
   }
 
-  function transferencia() {
-  alert("Transferencia exitosa.");
-  }
+  const cambio = (monto - totalVentas).toFixed(2);
+  document.getElementById("total").innerHTML = "Cambio: $" + cambio;
+  notificar(`Venta finalizada. Cambio: $${cambio}`, "ok");
 
-  function abrirModal(tipo) {
+  document.getElementById("id-Codigo").value = "";
+  document.getElementById("bd-contenido").innerHTML = "";
+  totalVentas = 0;
+}
+
+// ======================
+// NOTIFICACIONES
+// ======================
+function notificar(mensaje, tipo = "info") {
+  const div = document.createElement("div");
+  div.textContent = mensaje;
+  div.style.cssText = `
+    position:fixed;bottom:10px;right:10px;
+    background:${tipo === "error" ? "#d9534f" : "#28a745"};
+    color:white;padding:10px 15px;border-radius:5px;
+    font-weight:bold;z-index:99999;box-shadow:0 2px 5px rgba(0,0,0,0.2);
+  `;
+  document.body.appendChild(div);
+  setTimeout(() => div.remove(), 2500);
+}
+
+// ======================
+// MODALES DE PAGO
+// ======================
+function abrirModal(tipo) {
   const modal = document.getElementById("miModal");
   const contenido = document.getElementById("contenidoModal");
 
-  // Cambiamos el contenido según el botón presionado
-// Cambiamos el contenido según el botón presionado
-switch (tipo) {
-  // 💻 PAGO DE INTERNET
-  case "internet":
-    contenido.innerHTML = `
-      <h2>Pago de Internet</h2>
-      <p>Introduce tu número de cuenta y el monto a pagar.</p>
-      <input type="text" id="cuentaInternet" placeholder="Número de cuenta" />
-      <input type="number" id="montoInternet" placeholder="Monto" />
-      <button id="btnPagarInternet">Confirmar</button>
-    `;
+  switch (tipo) {
+    case "internet":
+      contenido.innerHTML = `
+        <h2>Pago de Internet</h2>
+        <p>Introduce tu número de cuenta y el monto a pagar.</p>
+        <input type="text" id="cuentaInternet" placeholder="Número de cuenta" />
+        <input type="number" id="montoInternet" placeholder="Monto" />
+        <button id="btnPagarInternet">Confirmar</button>
+      `;
+      document.getElementById("btnPagarInternet").onclick = () => {
+        const cuenta = document.getElementById("cuentaInternet").value.trim();
+        const monto = document.getElementById("montoInternet").value.trim();
+        if (!/^\d{6,}$/.test(cuenta)) return notificar("Número de cuenta inválido.", "error");
+        if (monto <= 0) return notificar("Monto inválido.", "error");
+        confirmar(`Pago de Internet\nCuenta: ${cuenta}\nMonto: $${monto}`);
+      };
+      break;
 
-    document.getElementById("btnPagarInternet").addEventListener("click", () => {
-      const cuenta = document.getElementById("cuentaInternet").value.trim();
-      const monto = document.getElementById("montoInternet").value.trim();
-      if (!cuenta || !monto) return alert("Por favor, completa todos los campos.");
-      confirmar(`Pago de Internet\nCuenta: ${cuenta}\nMonto: $${monto}`);
-    });
-    break;
+    case "agua":
+      contenido.innerHTML = `
+        <h2>Pago de Agua</h2>
+        <p>Introduce tu número de cuenta y el monto a pagar.</p>
+        <input type="text" id="cuentaAgua" placeholder="Número de cuenta" />
+        <input type="number" id="montoAgua" placeholder="Monto" />
+        <button id="btnPagarAgua">Confirmar</button>
+      `;
+      document.getElementById("btnPagarAgua").onclick = () => {
+        const cuenta = document.getElementById("cuentaAgua").value.trim();
+        const monto = document.getElementById("montoAgua").value.trim();
+        if (!/^\d{6,}$/.test(cuenta)) return notificar("Número de cuenta inválido.", "error");
+        if (monto <= 0) return notificar("Monto inválido.", "error");
+        confirmar(`Pago de Agua\nCuenta: ${cuenta}\nMonto: $${monto}`);
+      };
+      break;
 
-  // 💧 PAGO DE AGUA
-  case "agua":
-    contenido.innerHTML = `
-      <h2>Pago de Agua</h2>
-      <p>Introduce tu número de cuenta y el monto a pagar.</p>
-      <input type="text" id="cuentaAgua" placeholder="Número de cuenta" />
-      <input type="number" id="montoAgua" placeholder="Monto" />
-      <button id="btnPagarAgua">Confirmar</button>
-    `;
+    case "transferencia":
+      contenido.innerHTML = `
+        <h2>Transferencia Bancaria</h2>
+        <p>Introduce los datos de la cuenta destino.</p>
+        <input type="text" id="cuentaDestino" placeholder="Cuenta destino" />
+        <input type="number" id="montoTransferencia" placeholder="Monto" />
+        <input type="text" id="numTarjeta" placeholder="Número de tarjeta" />
+        <div id="msgTarjeta" style="color:crimson;font-size:14px;margin-top:4px;"></div>
+        <button id="btnValidar">Validar Tarjeta</button>
+        <button id="btnEnviar" disabled>Enviar</button>
+      `;
+      const inputTarjeta = document.getElementById("numTarjeta");
+      const msg = document.getElementById("msgTarjeta");
+      const btnValidar = document.getElementById("btnValidar");
+      const btnEnviar = document.getElementById("btnEnviar");
 
-    document.getElementById("btnPagarAgua").addEventListener("click", () => {
-      const cuenta = document.getElementById("cuentaAgua").value.trim();
-      const monto = document.getElementById("montoAgua").value.trim();
-      if (!cuenta || !monto) return alert("Por favor, completa todos los campos.");
-      confirmar(`Pago de Agua\nCuenta: ${cuenta}\nMonto: $${monto}`);
-    });
-    break;
-
-  // 💸 TRANSFERENCIA
-  case "transferencia":
-    contenido.innerHTML = `
-      <h2>Transferencia Bancaria</h2>
-      <p>Introduce los datos de la cuenta destino.</p>
-      <input type="text" id="cuentaDestino" placeholder="Cuenta destino" />
-      <input type="number" id="montoTransferencia" placeholder="Monto" />
-      <input type="text" id="numTarjeta" placeholder="Número de tarjeta" />
-      <div id="msgTarjeta" style="color:crimson; font-size:14px; margin-top:4px;"></div>
-      <button id="btnValidar">Validar Tarjeta</button>
-      <button id="btnEnviar" disabled>Enviar</button>
-    `;
-
-    // Funciones auxiliares
-    const onlyDigits = s => (s || '').replace(/\D/g, '');
-
-    function luhnCheck(number) {
-      const digits = onlyDigits(number);
-      let sum = 0;
-      let shouldDouble = false;
-      for (let i = digits.length - 1; i >= 0; i--) {
-        let d = Number(digits[i]);
-        if (shouldDouble) {
-          d *= 2;
-          if (d > 9) d -= 9;
+      const onlyDigits = s => (s || '').replace(/\D/g, '');
+      const luhnCheck = number => {
+        const digits = onlyDigits(number);
+        let sum = 0, shouldDouble = false;
+        for (let i = digits.length - 1; i >= 0; i--) {
+          let d = +digits[i];
+          if (shouldDouble) d = d * 2 > 9 ? d * 2 - 9 : d * 2;
+          sum += d;
+          shouldDouble = !shouldDouble;
         }
-        sum += d;
-        shouldDouble = !shouldDouble;
-      }
-      return sum % 10 === 0;
-    }
+        return sum % 10 === 0;
+      };
 
-    // Referencias
-    const inputTarjeta = document.getElementById("numTarjeta");
-    const msg = document.getElementById("msgTarjeta");
-    const btnValidar = document.getElementById("btnValidar");
-    const btnEnviar = document.getElementById("btnEnviar");
-
-    // Formatear número
-    inputTarjeta.addEventListener("input", () => {
-      const value = onlyDigits(inputTarjeta.value).replace(/(\d{4})(?=\d)/g, "$1 ").trim();
-      inputTarjeta.value = value;
-      msg.textContent = "";
-      btnEnviar.disabled = true;
-    });
-
-    // Validar tarjeta
-    btnValidar.addEventListener("click", () => {
-      const num = onlyDigits(inputTarjeta.value);
-      if (num.length < 12) {
-        msg.textContent = "Número demasiado corto.";
-        msg.style.color = "crimson";
+      inputTarjeta.addEventListener("input", () => {
+        inputTarjeta.value = onlyDigits(inputTarjeta.value).replace(/(\d{4})(?=\d)/g, "$1 ").trim();
+        msg.textContent = "";
         btnEnviar.disabled = true;
-        return;
-      }
-      if (!luhnCheck(num)) {
-        msg.textContent = "Número inválido (Luhn).";
-        msg.style.color = "crimson";
-        btnEnviar.disabled = true;
-        return;
-      }
-      msg.textContent = "Número de tarjeta válido ✅";
-      msg.style.color = "green";
-      btnEnviar.disabled = false;
-    });
+      });
 
-    // Enviar transferencia
-    btnEnviar.addEventListener("click", () => {
-      const cuenta = document.getElementById("cuentaDestino").value.trim();
-      const monto = document.getElementById("montoTransferencia").value.trim();
-      if (!cuenta || !monto) return alert("Por favor, completa todos los campos.");
-      confirmar(`Transferencia enviada\nDestino: ${cuenta}\nMonto: $${monto}`);
-    });
-    break;
+      btnValidar.onclick = () => {
+        const num = onlyDigits(inputTarjeta.value);
+        if (num.length < 12) return msg.textContent = "Número demasiado corto.";
+        if (!luhnCheck(num)) return msg.textContent = "Número inválido (Luhn).";
+        msg.textContent = "Número válido ✅";
+        msg.style.color = "green";
+        btnEnviar.disabled = false;
+      };
 
-  // ⚡ PAGO DE LUZ
-  case "luz":
-    contenido.innerHTML = `
-      <h2>Pago de Luz</h2>
-      <p>Introduce tu número de servicio y el monto.</p>
-      <input type="text" id="servicioLuz" placeholder="Número de servicio" />
-      <input type="number" id="montoLuz" placeholder="Monto" />
-      <button id="btnPagarLuz">Pagar</button>
-    `;
+      btnEnviar.onclick = () => {
+        const cuenta = document.getElementById("cuentaDestino").value.trim();
+        const monto = document.getElementById("montoTransferencia").value.trim();
+        if (!/^\d{6,}$/.test(cuenta)) return notificar("Cuenta destino inválida.", "error");
+        if (monto <= 0) return notificar("Monto inválido.", "error");
+        confirmar(`Transferencia enviada\nDestino: ${cuenta}\nMonto: $${monto}`);
+      };
+      break;
 
-    document.getElementById("btnPagarLuz").addEventListener("click", () => {
-      const servicio = document.getElementById("servicioLuz").value.trim();
-      const monto = document.getElementById("montoLuz").value.trim();
-      if (!servicio || !monto) return alert("Por favor, completa todos los campos.");
-      confirmar(`Pago de Luz\nServicio: ${servicio}\nMonto: $${monto}`);
-    });
-    break;
+    case "luz":
+      contenido.innerHTML = `
+        <h2>Pago de Luz</h2>
+        <input type="text" id="servicioLuz" placeholder="Número de servicio" />
+        <input type="number" id="montoLuz" placeholder="Monto" />
+        <button id="btnPagarLuz">Pagar</button>
+      `;
+      document.getElementById("btnPagarLuz").onclick = () => {
+        const servicio = document.getElementById("servicioLuz").value.trim();
+        const monto = document.getElementById("montoLuz").value.trim();
+        if (!/^\d{6,}$/.test(servicio)) return notificar("Número de servicio inválido.", "error");
+        if (monto <= 0) return notificar("Monto inválido.", "error");
+        confirmar(`Pago de Luz\nServicio: ${servicio}\nMonto: $${monto}`);
+      };
+      break;
 
-  // 📱 RECARGA DE SALDO
-  case "saldoCelular":
-    contenido.innerHTML = `
-      <h2>Recarga de Saldo</h2>
-      <p>Introduce tu número de teléfono y el monto.</p>
-      <input type="text" id="telefono" placeholder="Número de teléfono" />
-      <input type="number" id="montoCelular" placeholder="Monto" />
-      <button id="btnRecargar">Recargar</button>
-    `;
+    case "saldoCelular":
+      contenido.innerHTML = `
+        <h2>Recarga de Saldo</h2>
+        <input type="text" id="telefono" placeholder="Número de teléfono" />
+        <input type="number" id="montoCelular" placeholder="Monto" />
+        <button id="btnRecargar">Recargar</button>
+      `;
+      document.getElementById("btnRecargar").onclick = () => {
+        const numero = document.getElementById("telefono").value.trim();
+        const monto = document.getElementById("montoCelular").value.trim();
+        if (!/^\d{10}$/.test(numero)) return notificar("Número de teléfono inválido.", "error");
+        if (monto <= 0) return notificar("Monto inválido.", "error");
+        confirmar(`Recarga exitosa\nNúmero: ${numero}\nMonto: $${monto}`);
+      };
+      break;
 
-    document.getElementById("btnRecargar").addEventListener("click", () => {
-      const numero = document.getElementById("telefono").value.trim();
-      const monto = document.getElementById("montoCelular").value.trim();
-      if (!numero || !monto) return alert("Por favor, completa todos los campos.");
-      confirmar(`Recarga exitosa\nNúmero: ${numero}\nMonto: $${monto}`);
-    });
-    break;
+    default:
+      contenido.innerHTML = `<p>Acción no reconocida.</p>`;
+  }
 
-  default:
-    contenido.innerHTML = `<p>Acción no reconocida.</p>`;
-    break;
-}
-
-
-  // Mostrar el modal
   modal.style.display = "block";
 }
 
 function cerrarModal() {
-  document.getElementById("miModal").style.display = "none";
+  const modal = document.getElementById("miModal");
+  if (modal) modal.style.display = "none";
 }
 
-// Cerrar modal si se hace clic fuera
-window.addEventListener("click", (event) => {
+window.addEventListener("click", e => {
   const modal = document.getElementById("miModal");
-  if (event.target === modal) {
-    modal.style.display = "none";
-  }
+  if (e.target === modal) cerrarModal();
 });
 
-// Ejemplo: acción de confirmación
 function confirmar(tipo) {
-  alert(`Confirmado: ${tipo}`);
+  notificar(`Confirmado: ${tipo}`, "ok");
   cerrarModal();
 }
