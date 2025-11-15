@@ -96,12 +96,13 @@ tr {
 .logo-izquierdo {
   position: absolute; /* Posicionamiento absoluto respecto al contenedor padre */
   left: var(--espaciado-lg); /* Distancia desde el borde izquierdo */
-  top: 50%; /* Posiciona en el centro vertical */
+  top: 10%; /* Posiciona en el centro vertical */
   transform: translateY(-50%); /* Centra verticalmente usando transformación */
   width: 100%; /* Ancho al 100% del contenedor */
   max-width: var(--tamano-logo); /* Limita el ancho máximo usando variable */
   height: auto; /* Altura automática para mantener proporciones */
   transition: var(--transicion-base); /* Aplica transición suave para efectos hover */
+  z-index: 9999;
 }
 
 /* Efecto al pasar el cursor sobre el logo izquierdo */
@@ -114,7 +115,7 @@ tr {
 .logo-derecho {
   position: absolute; /* Posicionamiento absoluto respecto al contenedor padre */
   right: var(--espaciado-lg); /* Distancia desde el borde derecho */
-  top: 50%; /* Posiciona en el centro vertical */
+  top: 10%; /* Posiciona en el centro vertical */
   transform: translateY(-50%); /* Centra verticalmente usando transformación */
   width: 100%; /* Ancho al 100% del contenedor */
   max-width: var(--tamano-logo); /* Limita el ancho máximo usando variable */
