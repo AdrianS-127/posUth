@@ -1,0 +1,524 @@
+/* ============================================
+   VARIABLES CSS GLOBALES
+   ============================================ */
+:root {
+  /* Define variables reutilizables en todo el documento */
+  
+  /* Colores principales del sistema */
+  --color-borde: #000; /* Color negro para bordes principales */
+  --color-borde-secundario: #ddd; /* Color gris claro para bordes secundarios */
+  --color-fondo: #f5f5f5; /* Color de fondo general del sistema */
+  --color-texto: #333; /* Color de texto principal */
+  
+  /* Sistema de espaciados consistente */
+  --espaciado-sm: 5px; /* Espaciado pequeño para elementos cercanos */
+  --espaciado-md: 10px; /* Espaciado medio para separación estándar */
+  --espaciado-lg: 20px; /* Espaciado grande para separación amplia */
+  
+  /* Tamaños de elementos */
+  --tamano-logo: 68px; /* Tamaño máximo de los logos del encabezado */
+  --altura-boton: 15vh; /* Altura de los botones de control (15% del viewport) */
+  --ancho-boton: 20vh; /* Ancho de los botones de control (20% del viewport) */
+  
+  /* Efectos visuales */
+  --radio-borde: 8px; /* Radio para esquinas redondeadas */
+  --transicion-base: all 0.3s ease; /* Transición suave de 0.3 segundos */
+  --sombra-suave: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera para elevación sutil */
+  --sombra-elevada: 0 4px 12px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada para hover */
+}
+
+/* ============================================
+   RESET Y ESTILOS BASE
+   ============================================ */
+/* Establece box-sizing uniforme para mejor control de dimensiones */
+* {
+  box-sizing: border-box; /* Incluye padding y border en el cálculo del ancho/alto */
+}
+
+/* Estilos base del documento */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; /* Fuente del sistema para mejor rendimiento */
+  line-height: 1.6; /* Altura de línea para mejor legibilidad */
+  color: var(--color-texto); /* Aplica el color de texto desde variables */
+  background-color: var(--color-fondo); /* Aplica el color de fondo desde variables */
+}
+
+/* ============================================
+   ESTILOS TIPOGRÁFICOS GENERALES
+   ============================================ */
+/* Establece la fuente sans-serif para elementos de tabla y encabezados */
+th,
+h1,
+h2,
+tbody,
+td,
+tr {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; /* Aplica fuente del sistema a elementos de tabla */
+}
+
+/* ============================================
+   ENCABEZADO PRINCIPAL
+   ============================================ */
+/* Contenedor principal del header con logos y título centrado */
+.encabezado-principal {
+  position: relative; /* Permite posicionamiento absoluto de logos hijos */
+  display: flex; /* Activa flexbox para alineación flexible */
+  align-items: center; /* Alinea elementos verticalmente al centro */
+  justify-content: center; /* Centra el contenido horizontalmente */
+  text-align: center; /* Centra el texto dentro del contenedor */
+  padding: var(--espaciado-lg) 0; /* Añade espaciado vertical (arriba y abajo) */
+  background-color: #fff; /* Fondo blanco para destacar el encabezado */
+  box-shadow: var(--sombra-suave); /* Aplica sombra sutil para separación visual */
+  margin-bottom: var(--espaciado-md); /* Espacio inferior para separar del contenido */
+}
+
+/* Remueve márgenes del título principal para control preciso del espaciado */
+.texto-titulo {
+  margin: 0; /* Elimina márgenes predeterminados del navegador */
+  font-size: clamp(1.5rem, 3vw, 2.5rem); /* Tamaño de fuente responsive (mínimo 1.5rem, máximo 2.5rem) */
+  font-weight: 700; /* Grosor de fuente en negrita para destacar */
+  color: var(--color-texto); /* Aplica color de texto desde variables */
+}
+
+/* Remueve márgenes del subtítulo para control preciso del espaciado */
+.texto-subtitulo {
+  margin: 0; /* Elimina márgenes predeterminados del navegador */
+  font-size: clamp(1rem, 2vw, 1.5rem); /* Tamaño de fuente responsive (mínimo 1rem, máximo 1.5rem) */
+  font-weight: 400; /* Grosor de fuente normal */
+  color: #666; /* Color gris para menor jerarquía visual */
+  margin-top: var(--espaciado-sm); /* Pequeño espacio superior para separar del título */
+}
+
+/* ============================================
+   LOGOS DEL ENCABEZADO
+   ============================================ */
+/* Logo posicionado en la esquina superior izquierda del encabezado */
+.logo-izquierdo {
+  position: absolute; /* Posicionamiento absoluto respecto al contenedor padre */
+  left: var(--espaciado-lg); /* Distancia desde el borde izquierdo */
+  top: 50%; /* Posiciona en el centro vertical */
+  transform: translateY(-50%); /* Centra verticalmente usando transformación */
+  width: 100%; /* Ancho al 100% del contenedor */
+  max-width: var(--tamano-logo); /* Limita el ancho máximo usando variable */
+  height: auto; /* Altura automática para mantener proporciones */
+  transition: var(--transicion-base); /* Aplica transición suave para efectos hover */
+}
+
+/* Efecto al pasar el cursor sobre el logo izquierdo */
+.logo-izquierdo:hover {
+  transform: translateY(-50%) scale(1.05); /* Mantiene centrado y aumenta tamaño 5% */
+  filter: brightness(1.1); /* Aumenta brillo 10% al hacer hover */
+}
+
+/* Logo posicionado en la esquina superior derecha del encabezado */
+.logo-derecho {
+  position: absolute; /* Posicionamiento absoluto respecto al contenedor padre */
+  right: var(--espaciado-lg); /* Distancia desde el borde derecho */
+  top: 50%; /* Posiciona en el centro vertical */
+  transform: translateY(-50%); /* Centra verticalmente usando transformación */
+  width: 100%; /* Ancho al 100% del contenedor */
+  max-width: var(--tamano-logo); /* Limita el ancho máximo usando variable */
+  height: auto; /* Altura automática para mantener proporciones */
+  transition: var(--transicion-base); /* Aplica transición suave para efectos hover */
+}
+
+/* Efecto al pasar el cursor sobre el logo derecho */
+.logo-derecho:hover {
+  transform: translateY(-50%) scale(1.05); /* Mantiene centrado y aumenta tamaño 5% */
+  filter: brightness(1.1); /* Aumenta brillo 10% al hacer hover */
+}
+
+/* ============================================
+   ÁREA DE VISUALIZACIÓN DE INVENTARIO
+   ============================================ */
+/* Contenedor principal donde se muestra la lista de productos escaneados */
+.contenedor-inventario {
+  height: 60vh; /* Altura del 60% de la altura del viewport */
+  max-height: 60vh; /* Altura máxima del 60% del viewport */
+  overflow-y: auto; /* Permite desplazamiento vertical cuando hay overflow */
+  border: 2px solid var(--color-borde); /* Borde sólido usando color de variable */
+  border-radius: var(--radio-borde); /* Esquinas redondeadas usando variable */
+  padding: var(--espaciado-md); /* Espaciado interno usando variable */
+  background-color: #fff; /* Fondo blanco para contraste */
+  box-shadow: var(--sombra-suave); /* Sombra sutil para profundidad */
+  margin-bottom: var(--espaciado-md); /* Espacio inferior para separación */
+  font-size: clamp(1.25rem, 2vw, 1.75rem); /* Tamaño de fuente responsive */
+}
+
+/* Estilos para la barra de desplazamiento del contenedor */
+.contenedor-inventario::-webkit-scrollbar {
+  width: 10px; /* Ancho de la barra de desplazamiento */
+}
+
+/* Fondo de la barra de desplazamiento */
+.contenedor-inventario::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Color de fondo gris claro */
+  border-radius: var(--radio-borde); /* Esquinas redondeadas */
+}
+
+/* Mango (thumb) de la barra de desplazamiento */
+.contenedor-inventario::-webkit-scrollbar-thumb {
+  background: #888; /* Color gris del mango */
+  border-radius: var(--radio-borde); /* Esquinas redondeadas */
+  transition: var(--transicion-base); /* Transición suave */
+}
+
+/* Efecto hover en el mango de la barra de desplazamiento */
+.contenedor-inventario::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Color más oscuro al hacer hover */
+}
+
+/* Tabla que muestra los productos agregados al carrito */
+#lista-productos {
+  width: 100%; /* Ancho del 100% del contenedor */
+  border-collapse: collapse; /* Elimina espacios entre celdas de la tabla */
+  font-size: clamp(1.1rem, 1.8vw, 1.5rem); /* Tamaño de fuente responsive */
+  table-layout: auto; /* Permite que las columnas ajusten su ancho automáticamente */
+}
+
+/* Estilo para el encabezado de la tabla */
+#lista-productos thead {
+  background-color: #f8f9fa; /* Fondo gris claro para encabezado */
+  position: sticky; /* Mantiene el encabezado visible al hacer scroll */
+  top: 0; /* Posición fija en la parte superior */
+  z-index: 10; /* Asegura que esté por encima del contenido */
+}
+
+/* Estilo para las celdas del encabezado */
+#lista-productos th {
+  padding: var(--espaciado-md); /* Espaciado interno usando variable */
+  text-align: left; /* Alinea texto a la izquierda */
+  font-weight: 600; /* Grosor de fuente semi-negrita */
+  border-bottom: 2px solid var(--color-borde-secundario); /* Borde inferior para separación */
+  color: var(--color-texto); /* Color de texto desde variable */
+}
+
+/* Cuerpo de la tabla donde se insertan las filas de productos */
+#cuerpo-datos {
+  width: 100%; /* Ancho del 100% del contenedor */
+}
+
+/* Estilo para las celdas de datos */
+#cuerpo-datos td {
+  padding: var(--espaciado-md); /* Espaciado interno usando variable */
+  border-bottom: 1px solid var(--color-borde-secundario); /* Borde inferior sutil */
+  transition: var(--transicion-base); /* Transición suave para efectos */
+}
+
+/* Efecto hover en las filas de datos */
+#cuerpo-datos tr:hover {
+  background-color: #f8f9fa; /* Fondo gris claro al pasar cursor */
+  cursor: pointer; /* Cambia cursor a pointer para indicar interactividad */
+}
+
+/* Efecto hover en las celdas */
+#cuerpo-datos tr:hover td {
+  color: #000; /* Color negro más intenso al hacer hover */
+}
+
+/* ============================================
+   CAMPO DE ENTRADA DE CÓDIGO DE BARRAS
+   ============================================ */
+/* Campo de texto donde se ingresa o escanea el código del producto */
+.campo-codigo {
+  width: 100%; /* Ancho del 100% del contenedor */
+  padding: var(--espaciado-md); /* Espaciado interno usando variable */
+  font-size: clamp(1.5rem, 3vw, 2.5rem); /* Tamaño de fuente responsive */
+  height: 60px; /* Altura fija del campo */
+  border: 2px solid var(--color-borde); /* Borde sólido usando variable */
+  border-radius: var(--radio-borde); /* Esquinas redondeadas */
+  outline: none; /* Elimina outline predeterminado del navegador */
+  transition: var(--transicion-base); /* Transición suave para efectos */
+  font-family: 'Courier New', monospace; /* Fuente monoespaciada para códigos */
+  background-color: #fff; /* Fondo blanco */
+  box-shadow: var(--sombra-suave); /* Sombra sutil */
+  margin-bottom: var(--espaciado-md); /* Espacio inferior */
+}
+
+/* Efecto al enfocar el campo de código */
+.campo-codigo:focus {
+  border-color: #4CAF50; /* Cambia color de borde a verde al enfocar */
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1); /* Añade sombra verde translúcida */
+  transform: translateY(-2px); /* Eleva ligeramente el campo */
+}
+
+/* Estilo del placeholder del campo */
+.campo-codigo::placeholder {
+  color: #999; /* Color gris claro para el texto placeholder */
+  font-style: italic; /* Estilo itálico para diferenciación */
+}
+
+/* ============================================
+   PANEL DE BOTONES DE CONTROL
+   ============================================ */
+/* Contenedor que agrupa todos los botones de acción del sistema POS */
+.panel-controles {
+  display: flex; /* Activa flexbox para distribución */
+  justify-content: space-around; /* Distribuye botones con espacio uniforme */
+  align-items: center; /* Centra botones verticalmente */
+  gap: var(--espaciado-md); /* Espacio entre botones usando variable */
+  padding: var(--espaciado-md); /* Espaciado interno */
+  background-color: #fff; /* Fondo blanco */
+  border-radius: var(--radio-borde); /* Esquinas redondeadas */
+  box-shadow: var(--sombra-suave); /* Sombra sutil */
+  margin-bottom: var(--espaciado-md); /* Espacio inferior */
+  flex-wrap: wrap; /* Permite que botones se ajusten en pantallas pequeñas */
+}
+
+/* Estilos base compartidos por todos los botones de acción */
+.control-accion {
+  height: var(--altura-boton); /* Altura desde variable (15vh) */
+  width: var(--ancho-boton); /* Ancho desde variable (20vh) */
+  min-width: 100px; /* Ancho mínimo para evitar botones muy pequeños */
+  min-height: 100px; /* Altura mínima para evitar botones muy pequeños */
+  background-size: 70%; /* Tamaño de la imagen de fondo al 70% */
+  background-repeat: no-repeat; /* Evita repetición de imagen */
+  background-position: center; /* Centra la imagen de fondo */
+  border: 2px solid transparent; /* Borde transparente (se hace visible en hover) */
+  border-radius: var(--radio-borde); /* Esquinas redondeadas */
+  cursor: pointer; /* Cursor tipo pointer para indicar clickeable */
+  transition: var(--transicion-base); /* Transición suave para todos los cambios */
+  box-shadow: var(--sombra-suave); /* Sombra sutil */
+  background-color: #fff; /* Fondo blanco para contraste */
+  position: relative; /* Posicionamiento relativo para pseudo-elementos */
+  overflow: hidden; /* Oculta desbordamiento para efectos */
+}
+
+/* Efecto hover en todos los botones de control */
+.control-accion:hover {
+  transform: translateY(-4px) scale(1.05); /* Eleva y agranda ligeramente */
+  box-shadow: var(--sombra-elevada); /* Sombra más pronunciada */
+  border-color: var(--color-borde-secundario); /* Hace visible el borde */
+}
+
+/* Efecto active (al hacer click) en los botones */
+.control-accion:active {
+  transform: translateY(-2px) scale(1.02); /* Reduce el efecto al clickear */
+  box-shadow: var(--sombra-suave); /* Vuelve a sombra sutil */
+}
+
+/* Efecto de ripple al hacer click (usando pseudo-elemento) */
+.control-accion::after {
+  content: ''; /* Pseudo-elemento vacío */
+  position: absolute; /* Posicionamiento absoluto dentro del botón */
+  top: 50%; /* Centra verticalmente */
+  left: 50%; /* Centra horizontalmente */
+  width: 0; /* Inicia con ancho 0 */
+  height: 0; /* Inicia con altura 0 */
+  border-radius: 50%; /* Forma circular */
+  background: rgba(0, 0, 0, 0.1); /* Fondo negro translúcido */
+  transform: translate(-50%, -50%); /* Centra el círculo */
+  transition: width 0.6s, height 0.6s; /* Transición para efecto de expansión */
+}
+
+/* Activa el efecto ripple al hacer click */
+.control-accion:active::after {
+  width: 300px; /* Expande el ancho */
+  height: 300px; /* Expande la altura */
+}
+
+/* ============================================
+   BOTONES INDIVIDUALES DE ACCIÓN
+   ============================================ */
+/* Botón 1: Pago con transferencia bancaria o depósito */
+#btn1 {
+  background-image: url("../img/eliminar-producto.png"); /* Imagen de ícono de banco */
+}
+
+/* Efecto hover específico para botón de banco */
+#btn1:hover {
+  background-color: #E3F2FD; /* Fondo azul claro al hacer hover */
+}
+
+/* Botón 2: Ver o gestionar el carrito de compras */
+#btn2 {
+  background-image: url("../img/Venta.png"); /* Imagen de ícono de carrito */
+}
+
+/* Efecto hover específico para botón de carrito */
+#btn2:hover {
+  background-color: #FFF3E0; /* Fondo naranja claro al hacer hover */
+}
+
+/* Botón 3: Iniciar una nueva transacción o limpiar el carrito */
+#btn3 {
+  background-image: url("../img/nuevo.png"); /* Imagen de ícono de nuevo */
+}
+
+/* Efecto hover específico para botón nuevo */
+#btn3:hover {
+  background-color: #E8F5E9; /* Fondo verde claro al hacer hover */
+}
+
+/* Botón 4: Aplicar descuentos o promociones especiales */
+#btn4 {
+  background-image: url("../img/buscar.png"); /* Imagen de ícono de descuento */
+}
+
+/* Efecto hover específico para botón de descuento */
+#btn4:hover {
+  background-color: #FCE4EC; /* Fondo rosa claro al hacer hover */
+}
+
+/* Botón 5: Pago con tarjeta de crédito o débito */
+#btn5 {
+  background-image: url("../img/inventario.png"); /* Imagen de ícono de tarjeta */
+}
+
+/* Efecto hover específico para botón de tarjeta */
+#btn5:hover {
+  background-color: #F3E5F5; /* Fondo morado claro al hacer hover */
+}
+
+/* ============================================
+   CONTENEDOR DEL TOTAL DE LA COMPRA
+   ============================================ */
+/* Muestra el total acumulado de los productos en el carrito */
+.total-container {
+  display: flex; /* Activa flexbox para centrado */
+  align-items: center; /* Centra verticalmente */
+  justify-content: center; /* Centra horizontalmente */
+  border: 3px solid var(--color-borde); /* Borde grueso para destacar */
+  border-radius: var(--radio-borde); /* Esquinas redondeadas */
+  width: 100%; /* Ancho completo en móviles */
+  max-width: 400px; /* Ancho máximo de 400px */
+  height: clamp(60px, 10vw, 100px); /* Altura responsive */
+  margin-left: auto; /* Empuja el contenedor a la derecha */
+  margin-bottom: var(--espaciado-md); /* Espacio inferior */
+  font-size: clamp(1.5rem, 3vw, 2.5rem); /* Tamaño de fuente responsive */
+  font-weight: 700; /* Grosor de fuente en negrita */
+  background-color: #fff; /* Fondo blanco */
+  box-shadow: var(--sombra-elevada); /* Sombra pronunciada para destacar */
+  color: #2E7D32; /* Color verde para el total */
+  transition: var(--transicion-base); /* Transición suave */
+}
+
+/* Efecto al actualizar el total */
+.total-container:hover {
+  transform: scale(1.02); /* Aumenta ligeramente al pasar cursor */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); /* Sombra más intensa */
+}
+
+/* ============================================
+   RESPONSIVE DESIGN - TABLETS
+   ============================================ */
+/* Ajustes para pantallas medianas (tablets) */
+@media (max-width: 768px) {
+  /* Reduce tamaño de logos en tablets */
+  .logo-izquierdo,
+  .logo-derecho {
+    max-width: 50px; /* Tamaño reducido a 50px */
+    left: var(--espaciado-md); /* Reduce espaciado lateral */
+    right: var(--espaciado-md); /* Reduce espaciado lateral */
+  }
+  
+  /* Ajusta panel de controles para tablets */
+  .panel-controles {
+    gap: var(--espaciado-sm); /* Reduce espacio entre botones */
+  }
+  
+  /* Reduce tamaño de botones en tablets */
+  .control-accion {
+    height: 12vh; /* Reduce altura a 12vh */
+    width: 18vh; /* Reduce ancho a 18vh */
+    min-width: 80px; /* Reduce mínimo a 80px */
+    min-height: 80px; /* Reduce mínimo a 80px */
+  }
+  
+  /* Ajusta contenedor de total para tablets */
+  .total-container {
+    max-width: 300px; /* Reduce ancho máximo */
+    margin: 0 auto; /* Centra horizontalmente */
+  }
+}
+
+/* ============================================
+   RESPONSIVE DESIGN - MÓVILES
+   ============================================ */
+/* Ajustes para pantallas pequeñas (móviles) */
+@media (max-width: 480px) {
+  /* Oculta logos en móviles para ahorrar espacio */
+  .logo-izquierdo,
+  .logo-derecho {
+    display: none; /* Oculta los logos */
+  }
+  
+  /* Ajusta encabezado para móviles */
+  .encabezado-principal {
+    padding: var(--espaciado-md) 0; /* Reduce padding vertical */
+  }
+  
+  /* Ajusta altura del contenedor de inventario en móviles */
+  .contenedor-inventario {
+    height: 50vh; /* Reduce altura a 50vh */
+    max-height: 50vh; /* Reduce altura máxima */
+  }
+  
+  /* Ajusta panel de controles para móviles */
+  .panel-controles {
+    gap: 5px; /* Espacio mínimo entre botones */
+    padding: var(--espaciado-sm); /* Reduce padding */
+  }
+  
+  /* Ajusta tamaño de botones para móviles */
+  .control-accion {
+    height: 80px; /* Altura fija de 80px */
+    width: 80px; /* Ancho fijo de 80px */
+    min-width: 70px; /* Mínimo de 70px */
+    min-height: 70px; /* Mínimo de 70px */
+  }
+  
+  /* Ajusta contenedor de total para móviles */
+  .total-container {
+    width: 100%; /* Ancho completo */
+    max-width: 250px; /* Reduce ancho máximo */
+    height: 60px; /* Altura fija de 60px */
+    margin: 0 auto var(--espaciado-md); /* Centra y añade margen inferior */
+  }
+}
+
+/* ============================================
+   ANIMACIONES Y KEYFRAMES
+   ============================================ */
+/* Animación de aparición suave para elementos */
+@keyframes fadeIn {
+  from {
+    opacity: 0; /* Inicia invisible */
+    transform: translateY(10px); /* Inicia desplazado hacia abajo */
+  }
+  to {
+    opacity: 1; /* Termina visible */
+    transform: translateY(0); /* Termina en posición original */
+  }
+}
+
+/* Aplica animación de aparición al cargar */
+.contenedor-inventario,
+.campo-codigo,
+.panel-controles,
+.total-container {
+  animation: fadeIn 0.5s ease-out; /* Animación de 0.5 segundos */
+}
+
+/* ============================================
+   UTILIDADES Y HELPERS
+   ============================================ */
+/* Clase para ocultar elementos visualmente pero mantenerlos accesibles */
+.sr-only {
+  position: absolute; /* Posicionamiento absoluto */
+  width: 1px; /* Ancho mínimo */
+  height: 1px; /* Altura mínima */
+  padding: 0; /* Sin padding */
+  margin: -1px; /* Margen negativo */
+  overflow: hidden; /* Oculta overflow */
+  clip: rect(0, 0, 0, 0); /* Recorta el contenido */
+  white-space: nowrap; /* Evita saltos de línea */
+  border: 0; /* Sin borde */
+}
+
+/* Clase para focus visible (accesibilidad con teclado) */
+.control-accion:focus-visible,
+.campo-codigo:focus-visible {
+  outline: 3px solid #4CAF50; /* Outline verde de 3px */
+  outline-offset: 2px; /* Separación del outline de 2px */
+}
